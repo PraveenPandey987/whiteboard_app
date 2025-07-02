@@ -1,5 +1,5 @@
 import { useContext, useEffect, useLayoutEffect, useRef } from "react";
-import rough from 'roughjs/bin/rough'
+import rough from "roughjs";
 import BoardContext from "../../store/board-context";
 import { TOOL_ACTION_TYPES, TOOL_ITEMS } from "../../constants";
 import classes from './index.module.css'
