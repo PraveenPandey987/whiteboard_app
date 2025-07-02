@@ -4,7 +4,7 @@ import classes from './index.module.css'
 import { COLORS, STROKE_TOOL_TYPES, TOOL_ITEMS, FILL_TOOL_TYPES, SIZE_TOOL_TYPES } from '../../constants';
 import BoardContext from '../../store/board-context';
 import toolboxContext from '../../store/toolbox.context';
-import cx from 'classnames';
+import cx from 'clsx';
 const index = () => {
     const { activeToolItem } = useContext(BoardContext);
     const { toolboxState, changeStrokeHandler, changeFillHandler, changeSizeHandler } = useContext(toolboxContext);

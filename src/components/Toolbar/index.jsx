@@ -1,6 +1,6 @@
 import { useContext, useState } from 'react';
 import classes from './index.module.css'
-import cx from 'classnames';
+import cx from 'clsx';
 import { LuRectangleHorizontal } from 'react-icons/lu';
 import BoardContext from '../../store/board-context';
 import { FaSlash, FaUndoAlt, FaRedoAlt, FaRegCircle, FaArrowRight, FaPaintBrush, FaEraser, FaFont,FaDownload } from 'react-icons/fa';
