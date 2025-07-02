@@ -13,10 +13,14 @@ export default defineConfig({
       'react-icons/fa'
     ]
   },
+  
   build: {
     commonjsOptions: {
       transformMixedEsModules: true,
       include: [/node_modules/]
+    },
+    rollupOptions: {
+      external: ['roughjs']
     }
   },
   resolve: {
