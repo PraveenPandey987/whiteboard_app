@@ -19,9 +19,6 @@ export default defineConfig({
       transformMixedEsModules: true,
       include: [/node_modules/]
     },
-    rollupOptions: {
-      external: ['roughjs']
-    }
   },
   resolve: {
     alias: {
