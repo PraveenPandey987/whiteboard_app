@@ -1,10 +1,10 @@
 import { useContext, useEffect, useLayoutEffect, useRef } from "react";
-import rough from "roughjs";
+import rough from 'roughjs/bin/rough'
 import BoardContext from "../../store/board-context";
 import { TOOL_ACTION_TYPES, TOOL_ITEMS } from "../../constants";
 import classes from './index.module.css'
 import toolboxContext from "../../store/toolbox.context";
-import { MdKeyboardArrowDown } from "react-icons/md";
+
 const Board = () => {
   const canvasRef = useRef();
   const textAreaRef = useRef();
