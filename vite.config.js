@@ -8,7 +8,10 @@ export default defineConfig({
       'roughjs',
       'classnames', 
       'perfect-freehand',
-      'react-icons'
+      'react-icons',
+      'react-icons',
+      'react-icons/lu',
+      'react-icons/fa'
     ]
   },
   build: {
