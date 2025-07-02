@@ -1,6 +1,6 @@
 import { useCallback, useReducer } from 'react'
 import BoardContext from './board-context'
-import rough from 'roughjs/bin/rough'
+import rough from 'roughjs'
 import { BOARD_ACTIONS, TOOL_ACTION_TYPES, TOOL_ITEMS } from '../constants'
 import { createElement } from '../utils/element'
 import { getSvgPathFromStroke } from '../utils/element'
