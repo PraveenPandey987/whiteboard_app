@@ -3,27 +3,20 @@ import react from '@vitejs/plugin-react'
 
 export default defineConfig({
   plugins: [react()],
+  optimizeDeps: {
+    include: [
+      'roughjs',
+      'classnames',
+      'perfect-freehand',
+      'react-icons',
+      'react-icons/lu',
+      'react-icons/fa'
+    ]
+  },
   build: {
-    rollupOptions: {
-      external: [
-        'react-icons/lu',
-        'react-icons/fa',
-        'roughjs',
-        'classnames',
-        'perfect-freehand'
-      ],
-      output: {
-        globals: {
-          'react-icons/lu': 'ReactIconsLu',
-          'react-icons/fa': 'ReactIconsFa',
-          'roughjs': 'rough',
-          'classnames': 'classNames',
-          'perfect-freehand': 'perfectFreehand'
-        }
-      }
-    },
     commonjsOptions: {
-      transformMixedEsModules: true
+      transformMixedEsModules: true,
+      include: [/node_modules/]
     }
   },
   resolve: {
@@ -34,8 +27,5 @@ export default defineConfig({
   server: {
     port: 3000,
     open: true
-  },
-  preview: {
-    port: 4173
   }
 })
