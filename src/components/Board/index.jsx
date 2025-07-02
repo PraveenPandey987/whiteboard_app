@@ -126,7 +126,7 @@ const Board = () => {
             fontSize: `${selectedElement?.size}px`,
             color: selectedElement?.stroke,
           }}
-          onBlur={(event) => textAreaBlurHandler(event.target.value, toolboxState)}
+          onBlur={(event) => textAreaBlurHandler(event.target.value)}
 
         />
       }
