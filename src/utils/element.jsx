@@ -1,4 +1,4 @@
-import rough from 'roughjs/bin/rough'
+import rough from 'roughjs'
 import { ARROW_LENGTH, TOOL_ITEMS } from '../constants';
 import { getArrowHeadsCoordinates, isPointCloseToLine } from './math';
 import getStroke from 'perfect-freehand';
