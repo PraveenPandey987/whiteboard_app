@@ -8,10 +8,8 @@ export default defineConfig({
       'roughjs',
       'classnames', 
       'perfect-freehand',
-      'react-icons',
-      'react-icons',
-      'react-icons/lu',
-      'react-icons/fa'
+  
+     
     ]
   },
   build: {
@@ -20,7 +18,13 @@ export default defineConfig({
       include: [/node_modules/]
     },
     rollupOptions: {
-      external: ['roughjs', 'classnames', 'perfect-freehand'],
+         external: [
+        'react-icons/lu',
+        'react-icons/fa',
+        'roughjs',
+        'classnames',
+        'perfect-freehand'
+      ],
       output: {
         globals: {
           'roughjs': 'rough',
