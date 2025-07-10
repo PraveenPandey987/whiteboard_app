@@ -2,11 +2,14 @@ import { useContext, useState } from 'react';
 import classes from './index.module.css'
 import cx from 'classnames';
 import { LuRectangleHorizontal } from 'react-icons/lu';
+import { useNavigate } from 'react-router-dom';
 import BoardContext from '../../store/board-context';
-import { FaSlash, FaUndoAlt, FaRedoAlt, FaRegCircle, FaArrowRight, FaPaintBrush, FaEraser, FaFont,FaDownload } from 'react-icons/fa';
+import { FaSlash, FaUndoAlt, FaRedoAlt, FaRegCircle, FaArrowRight, FaPaintBrush, FaEraser, FaFont,FaDownload ,FaSave} from 'react-icons/fa';
 import { TOOL_ITEMS } from '../../constants';
+
 const Toolbar = () => {
-  const { activeToolItem, changeToolHandler,undo,redo } = useContext(BoardContext);
+  const navigate = useNavigate();
+  const { activeToolItem, elements,changeToolHandler,undo,redo, id } = useContext(BoardContext);
   const handleDownloadClick=  ()=>{
       const canvas = document.getElementById("canvas")
       const data = canvas.toDataURL("image/png");
@@ -14,6 +17,37 @@ const Toolbar = () => {
       anchor.href=data;
       anchor.download ="board.png";
       anchor.click();
+  }
+
+  const handleSaveClick = async()=>{
+try{
+  console.log(elements);
+    const token = localStorage.getItem('auth_token');
+
+   const response = await fetch(`http://localhost:8000/api/canvas/update`, {
+      method: "PATCH",
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ elements ,id }),
+      
+    });
+    
+  const data = await response.json();
+console.log(data)
+   
+    if(!response.ok){
+      throw new Error("eror in saving",data.details)
+    }
+   
+    alert("canvas saved successfully");
+     navigate('/');
+  }
+  catch(error){
+    alert("something went wrong ")
+    console.log("save failed",error.message);
+  }
   }
   return (
     <div className={classes.container}>
@@ -27,6 +61,7 @@ const Toolbar = () => {
       <div className={classes.toolItem} onClick={undo}><FaUndoAlt /></div>
       <div className={classes.toolItem} onClick={redo}><FaRedoAlt /></div>
       <div className={classes.toolItem} onClick={handleDownloadClick}><FaDownload /></div>
+      <div className={classes.toolItem} onClick={handleSaveClick}><FaSave /></div>
     </div>
   )
 }

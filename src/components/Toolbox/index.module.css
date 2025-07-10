@@ -19,6 +19,12 @@
   margin-bottom: 0; /* last:mb-0 */
   padding-bottom: 1.25rem; /* last:pb-5 */
 }
+.toolBoxLable{
+   user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
 
 .selectOptionContainer:first-child {
   padding-top: 1.25rem; /* first:pt-5 */

@@ -37,7 +37,8 @@ export const createElement =(id,x1,y1,x2,y2,{type,fill,stroke,size})=>{
             const brushElement = {
              id,
              points :[{x: x1 ,y:y1}],
-             path: new Path2D(getSvgPathFromStroke(getStroke([{x:x1 ,y:y1}]))),
+            //  path: new Path2D(getSvgPathFromStroke(getStroke([{x:x1 ,y:y1}]))),
+            // path: getSvgPathFromStroke(getStroke([{x:x1 ,y:y1}])),
              type,
              stroke,
             }
@@ -125,7 +126,7 @@ export const isPointNearElement = (element,pointX,pointY) =>{
  case TOOL_ITEMS.BRUSH:
   
    const context = document.getElementById("canvas").getContext('2d');
-   return context.isPointInPath(element.path,pointX,pointY);
+   return context.isPointInPath(new Path2D(getSvgPathFromStroke(getStroke(element.points))),pointX,pointY);
    
 case TOOL_ITEMS.TEXT:{
   const context = document.getElementById("canvas").getContext('2d');

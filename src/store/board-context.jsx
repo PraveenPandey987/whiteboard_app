@@ -6,12 +6,14 @@ const BoardContext = createContext({
     elements: [],
     history:[[]],
     index: 0,
+    id: "",
     toolActionType: "",
     changeToolHandler: ()=> {},
     boardMouseDownHandler: ()=>{},
     boardMouseMoveHandler: ()=>{},
     boardMouseUpHandler:()=>{},
     textAreaBlurHandler: ()=>{},
+    changeTextElement: ()=>{},
  
     
 })
