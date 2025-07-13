@@ -6,7 +6,7 @@ import ToolBoxProvider from '../../store/ToolBoxProvider';
 import { Link, useParams } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import { initSocket,getSocket } from '../../utils/socket';
-
+const apiUrl = import.meta.env.VITE_API_URL;
 function Canvas() {
 const params = useParams();
   const [canvas, setCanvas] = useState(null);
@@ -56,7 +56,7 @@ useEffect(() => {
   const fetchData = async () => {
     const token = localStorage.getItem('auth_token');
     try {
-      const response = await fetch(`http://localhost:8000/api/canvas/load/${params.canvasId}`, {
+      const response = await fetch(`${apiUrl}/api/canvas/load/${params.canvasId}`, {
         method: "GET",
         headers: {
            'Authorization': `Bearer ${token}` 

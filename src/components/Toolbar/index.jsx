@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import BoardContext from '../../store/board-context';
 import { FaSlash, FaUndoAlt, FaRedoAlt, FaRegCircle, FaArrowRight, FaPaintBrush, FaEraser, FaFont,FaDownload ,FaSave} from 'react-icons/fa';
 import { TOOL_ITEMS } from '../../constants';
-
+const apiUrl = import.meta.env.VITE_API_URL;
 const Toolbar = () => {
   const navigate = useNavigate();
   const { activeToolItem, elements,changeToolHandler,undo,redo, id } = useContext(BoardContext);
@@ -24,7 +24,7 @@ try{
   console.log(elements);
     const token = localStorage.getItem('auth_token');
 
-   const response = await fetch(`http://localhost:8000/api/canvas/update`, {
+   const response = await fetch(`${apiUrl}/api/canvas/update`, {
       method: "PATCH",
       headers: {
         'Authorization': `Bearer ${token}`,
