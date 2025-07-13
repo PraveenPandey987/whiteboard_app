@@ -1,19 +1,11 @@
-import Board from './components/Board';
-import Toolbar from './components/Toolbar';
-import Toolbox from './components/Toolbox';
-import  BoardProvider  from './store/BoardProvier';
-import ToolBoxProvider from './store/ToolBoxProvider';
+
+import Routes from './routes';
 function App() {
 
   return(
     <>
-    <BoardProvider>
-      <ToolBoxProvider>
-    <Toolbar />
-    <Board />
-    <Toolbox />
-    </ToolBoxProvider>
-    </BoardProvider>
+   <Routes />
+    
 
     </>
 

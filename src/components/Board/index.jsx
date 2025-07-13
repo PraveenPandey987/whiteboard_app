@@ -1,16 +1,22 @@
-import { useContext, useEffect, useLayoutEffect, useRef } from "react";
+import { useContext, useEffect,useState ,useLayoutEffect, useRef } from "react";
 import rough from "roughjs";
 import BoardContext from "../../store/board-context";
 import { TOOL_ACTION_TYPES, TOOL_ITEMS } from "../../constants";
 import classes from './index.module.css'
 import toolboxContext from "../../store/toolbox.context";
-
+import { getSvgPathFromStroke } from '../../utils/element'
+import { getStroke } from 'perfect-freehand';
 const Board = () => {
   const canvasRef = useRef();
   const textAreaRef = useRef();
-  const { elements, boardMouseDownHandler, boardMouseMoveHandler, boardMouseUpHandler, textAreaBlurHandler, toolActionType ,undo,redo} = useContext(BoardContext);
+  const { elements, boardMouseDownHandler,changeTextElement, boardMouseMoveHandler, boardMouseUpHandler, textAreaBlurHandler, toolActionType ,undo,redo} = useContext(BoardContext);
   const { toolboxState } = useContext(toolboxContext);
+const [textState, setTextState] = useState({
+  value: "",
+  isEditing: false,
+});
 
+  
   useEffect(() => {
     const canvas = canvasRef.current;
 
@@ -30,8 +36,9 @@ const Board = () => {
     context.save();
     if (!canvas) return;
     const rc = rough.canvas(canvas);
-
-    elements.forEach(element => {
+    const index= elements.length-1;
+  // console.log(elements);
+    elements.forEach((element,ind) => {
       switch (element.type) {
         case TOOL_ITEMS.LINE:
         case TOOL_ITEMS.RECTANGLE:
@@ -42,17 +49,23 @@ const Board = () => {
           break;
         case TOOL_ITEMS.BRUSH:
           context.fillStyle = element.stroke;
-          context.fill(element.path);
+          const path = new Path2D(getSvgPathFromStroke(getStroke(element.points)));
+          context.fill(path);
           context.restore();
           break;
-
+  // newElement[index].path = new Path2D(getSvgPathFromStroke(getStroke(newElement[index].points)));
+            // newElement[index].path = getSvgPathFromStroke(getStroke(newElement[index].points));
         case TOOL_ITEMS.TEXT:
-      
+          
+        if(textState.isEditing && index ==ind ){
+          break;
+        }
           context.textBaseline = "top";
           context.font = `${element.size}px Caveat`;
           context.fillStyle = element.stroke;
           context.fillText(element.text, element.x1, element.y1);
           context.restore();
+        
           break;
           
         default:
@@ -109,7 +122,10 @@ const Board = () => {
 
     boardMouseUpHandler(e);
   }
-
+  const textFillHandler =(e)=>{
+    setTextState({value: e.target.value,isEditing:true});
+    changeTextElement(e.target.value);
+  }
 
   const selectedElement = elements[elements.length - 1];
   return (
@@ -119,14 +135,15 @@ const Board = () => {
         <textarea type="text"
           ref={textAreaRef}
           className={classes.textElementBox}
-
+          value={textState.value}
+          onChange = {(e)=>textFillHandler(e)}
           style={{
             top: selectedElement.y1,
             left: selectedElement.x1,
             fontSize: `${selectedElement?.size}px`,
             color: selectedElement?.stroke,
           }}
-          onBlur={(event) => textAreaBlurHandler(event.target.value)}
+          onBlur={() => {textAreaBlurHandler(textState.value); setTextState({value: "", isEditing: false})}}
 
         />
       }
