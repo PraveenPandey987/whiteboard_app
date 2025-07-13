@@ -1,5 +1,5 @@
 
-import Routes from './routes';
+import Routes from './Routes';
 function App() {
 
   return(
