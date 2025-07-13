@@ -1,7 +1,7 @@
 import React from 'react'
 import classes from './index.module.css'
 import { useRef, useEffect, useState } from 'react'
-
+const apiUrl = import.meta.env.VITE_API_URL;
 
 const token = localStorage.getItem('auth_token');
 const Modal = ({ closeModal, canvasId }) => {
@@ -19,7 +19,7 @@ const Modal = ({ closeModal, canvasId }) => {
         const fetchCanvasData = async () => {
             const token = localStorage.getItem('auth_token');
             try {
-                const response = await fetch(`http://localhost:8000/api/canvas/load/${canvasId}`, {
+                const response = await fetch(`${apiUrl}/api/canvas/load/${canvasId}`, {
                     method: "GET",
                     headers: {
                         'Authorization': `Bearer ${token}`
@@ -69,7 +69,7 @@ const Modal = ({ closeModal, canvasId }) => {
 
     const shareHandler = async () => {
         try {
-            const response = await fetch(`http://localhost:8000/api/canvas/share/${canvasId}`, {
+            const response = await fetch(`${apiUrl}/api/canvas/share/${canvasId}`, {
                 method: "PATCH",
                 headers: {
                     'Authorization': `Bearer ${token}`,

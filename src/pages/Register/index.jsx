@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import classes from './index.module.css';
 import { useNavigate } from 'react-router-dom'; 
+const apiUrl = import.meta.env.VITE_API_URL;
 const Index = () => {
   const [formData, setFormData] = useState({
     name: '',
@@ -14,7 +15,7 @@ const Index = () => {
 
   const registerUser = async () => {
     try {
-      const response = await fetch('http://localhost:8000/api/users', {
+      const response = await fetch(`${apiUrl}/api/users`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

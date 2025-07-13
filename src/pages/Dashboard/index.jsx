@@ -3,6 +3,7 @@ import classes from './index.module.css';
 import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
 import Modal from '../../components/Modal'
+const apiUrl = import.meta.env.VITE_API_URL;
 const CanvasDashboard = () => {
   const [canvases, setCanvases] = useState([]);
   const [Sharing,setSharing] = useState(null);
@@ -25,7 +26,7 @@ useEffect(() => {
         
         localStorage.removeItem('auth_token'); 
         
-      const response = await fetch('http://localhost:8000/api/token', {
+      const response = await fetch(`${apiUrl}/api/token`, {
   method: 'GET', 
   credentials: 'include', 
 });
@@ -44,7 +45,7 @@ useEffect(() => {
       
       // console.log(token)
    
-      const response = await fetch('http://localhost:8000/api/canvas/list', {
+      const response = await fetch(`${apiUrl}/api/canvas/list`, {
         method: "GET",
         headers: {
           'Authorization': `Bearer ${token}` 
@@ -81,7 +82,7 @@ useEffect(() => {
       if(!val){
         return ;
       }
-    const response = await fetch(`http://localhost:8000/api/canvas/create?name=${val}`, {
+    const response = await fetch(`${apiUrl}/api/canvas/create?name=${val}`, {
       method: "POST",
       headers: {
         'Authorization': `Bearer ${token}` 
@@ -113,7 +114,7 @@ useEffect(() => {
   
   try { 
      
-    const response = await fetch(`http://localhost:8000/api/canvas/${id}`, {
+    const response = await fetch(`${apiUrl}/api/canvas/${id}`, {
       method: "DELETE",
       headers: {
          'Authorization': `Bearer ${token}` 

@@ -1,11 +1,11 @@
 
 import { io } from 'socket.io-client';
-
+const apiUrl = import.meta.env.VITE_API_URL;
 let socket;
 
 export const initSocket = (token) => {
   if (!socket) {
-    socket = io("http://localhost:8000", {
+    socket = io(`${apiUrl}`, {
       extraHeaders: { Authorization: `Bearer ${token}` },
     });
   }
