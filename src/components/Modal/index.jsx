@@ -22,6 +22,7 @@ const Modal = ({ closeModal, canvasId }) => {
                 const response = await fetch(`${apiUrl}/api/canvas/load/${canvasId}`, {
                     method: "GET",
                     headers: {
+                          'ngrok-skip-browser-warning': 'any-value' ,
                         'Authorization': `Bearer ${token}`
                     }
                 });
@@ -72,6 +73,7 @@ const Modal = ({ closeModal, canvasId }) => {
             const response = await fetch(`${apiUrl}/api/canvas/share/${canvasId}`, {
                 method: "PATCH",
                 headers: {
+                      'ngrok-skip-browser-warning': 'any-value' ,
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
                 },

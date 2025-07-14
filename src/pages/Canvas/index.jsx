@@ -59,6 +59,7 @@ useEffect(() => {
       const response = await fetch(`${apiUrl}/api/canvas/load/${params.canvasId}`, {
         method: "GET",
         headers: {
+            'ngrok-skip-browser-warning': 'any-value' ,
            'Authorization': `Bearer ${token}` 
         }
       });

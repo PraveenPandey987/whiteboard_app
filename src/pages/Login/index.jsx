@@ -18,12 +18,14 @@ const Index = () => {
     const login = async () => {
       try {
         const headers = {
+            'ngrok-skip-browser-warning': 'any-value' ,
           'Content-Type': 'application/json',
         };
 
         const auth_token = localStorage.getItem('auth_token');
         if (auth_token) {
           headers['Authorization'] = `Bearer ${auth_token}`;
+          headers['ngrok-skip-browser-warning'] = 'any-value';  
         }
 
         const response = await fetch(`${apiUrl}/api/users/login`, {

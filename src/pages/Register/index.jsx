@@ -18,6 +18,7 @@ const Index = () => {
       const response = await fetch(`${apiUrl}/api/users`, {
         method: 'POST',
         headers: {
+            'ngrok-skip-browser-warning': 'any-value' ,
           'Content-Type': 'application/json',
         },
         credentials: 'include',

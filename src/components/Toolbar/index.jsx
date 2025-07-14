@@ -27,6 +27,7 @@ try{
    const response = await fetch(`${apiUrl}/api/canvas/update`, {
       method: "PATCH",
       headers: {
+          'ngrok-skip-browser-warning': 'any-value' ,
         'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json',
       },

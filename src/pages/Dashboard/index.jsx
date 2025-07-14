@@ -27,7 +27,9 @@ useEffect(() => {
         localStorage.removeItem('auth_token'); 
         
       const response = await fetch(`${apiUrl}/api/token`, {
-     
+     headers:{
+        'ngrok-skip-browser-warning': 'any-value' ,
+     },
   method: 'GET', 
   credentials: 'include', 
 });
@@ -89,6 +91,7 @@ useEffect(() => {
     const response = await fetch(`${apiUrl}/api/canvas/create?name=${val}`, {
       method: "POST",
       headers: {
+          'ngrok-skip-browser-warning': 'any-value' ,
         'Authorization': `Bearer ${token}` 
       },
       
@@ -121,6 +124,7 @@ useEffect(() => {
     const response = await fetch(`${apiUrl}/api/canvas/${id}`, {
       method: "DELETE",
       headers: {
+          'ngrok-skip-browser-warning': 'any-value' ,
          'Authorization': `Bearer ${token}` 
       },
       
