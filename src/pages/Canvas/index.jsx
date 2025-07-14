@@ -79,9 +79,18 @@ useEffect(() => {
   fetchData();
 }, []);
 
+
+
+const leaveCanvas= ()=>{
+   const socket = getSocket();
+    const canvasId = canvas._id;
+    socket.emit("leaveCanvas", { canvasId });
+}
+
  if (!canvas) {
     return <div>Loading...</div>;
   }
+
 
   
   return(
@@ -89,7 +98,7 @@ useEffect(() => {
  
     <BoardProvider data={canvas.elements} id={canvas._id} >
       <ToolBoxProvider>
-    <Link to='/' style={{
+    <Link onClick={leaveCanvas} to='/' style={{
   color: "#2563eb",
   fontSize: "18px",
   fontWeight: "600",
