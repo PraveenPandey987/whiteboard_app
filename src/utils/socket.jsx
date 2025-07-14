@@ -6,7 +6,8 @@ let socket;
 export const initSocket = (token) => {
   if (!socket) {
     socket = io(`${apiUrl}`, {
-      extraHeaders: { Authorization: `Bearer ${token}` },
+      extraHeaders: { Authorization: `Bearer ${token}`,
+           "ngrok-skip-browser-warning": 'any-value' },
     });
   }
   return socket;
