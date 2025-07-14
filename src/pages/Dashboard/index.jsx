@@ -51,7 +51,7 @@ useEffect(() => {
         headers: {
          
    
-
+             'ngrok-skip-browser-warning': 'any-value' ,
           'Authorization': `Bearer ${token}` 
         }
       });
