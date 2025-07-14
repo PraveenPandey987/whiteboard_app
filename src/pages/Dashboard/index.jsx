@@ -27,6 +27,7 @@ useEffect(() => {
         localStorage.removeItem('auth_token'); 
         
       const response = await fetch(`${apiUrl}/api/token`, {
+     
   method: 'GET', 
   credentials: 'include', 
 });
@@ -48,6 +49,9 @@ useEffect(() => {
       const response = await fetch(`${apiUrl}/api/canvas/list`, {
         method: "GET",
         headers: {
+         
+   
+
           'Authorization': `Bearer ${token}` 
         }
       });
