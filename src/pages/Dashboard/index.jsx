@@ -21,10 +21,23 @@ useEffect(() => {
       return;
     }
  try {
-     const decoded = jwtDecode(token);
+     
+      let decoded;
+    try {
+      decoded = jwtDecode(tok);
+    } catch {
+      localStorage.removeItem('auth_token');
+      navigate('/login');
+      return;
+    }
+    if (!decoded?._id) {
+      localStorage.removeItem('auth_token');
+      navigate('/login');
+      return;
+    }
       const currentTime = Date.now() / 1000; 
-
-      if (decoded.exp < currentTime) {
+    
+      if (decoded.exp < currentTime ) {
         
         localStorage.removeItem('auth_token'); 
         
@@ -72,6 +85,7 @@ useEffect(() => {
       console.log(data);
       setCanvases(data);
     } catch (error) {
+      
         alert("no saved canvases")
       console.log("unable to fetch canvas", error.message);
     }
