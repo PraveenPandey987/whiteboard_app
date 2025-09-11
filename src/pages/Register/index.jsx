@@ -30,9 +30,9 @@ const Index = () => {
       localStorage.setItem('auth_token', token); 
 
       const data = await response.json();
-
+    
       if (!response.ok) {
-        throw new Error(data.message || "Something went wrong");
+        throw new Error(data.errors[0].msg || "Something went wrong");
       }
 
       navigate('/');
@@ -40,8 +40,8 @@ const Index = () => {
       console.log("User registered successfully:", data);
       // optionally clear form or redirect user
     } catch (err) {
-      alert("error registering user , try again");
-      console.error("Error registering user:", err.message);
+      alert(`Error: ${err.message}`);
+      console.error("Error registering user:", err);
     }
   };
 

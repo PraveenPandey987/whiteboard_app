@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//c/Users/pp700/OneDrive/Desktop/whiteboard_mern/backend/**)",
+      "Read(//c/Users/pp700/OneDrive/Desktop/whiteboard_mern/**)",
+      "Read(//c/Users/pp700/OneDrive/Pictures/Screenshots 1/**)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

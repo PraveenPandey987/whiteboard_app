@@ -3,10 +3,12 @@ import classes from './index.module.css';
 import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
 import Modal from '../../components/Modal'
+import { set } from 'lodash';
 const apiUrl = import.meta.env.VITE_API_URL;
 const CanvasDashboard = () => {
   const [canvases, setCanvases] = useState([]);
   const [Sharing,setSharing] = useState(null);
+  const [userId,setUserId] = useState(null);
    let token = localStorage.getItem('auth_token');
   const navigate= useNavigate();
 
@@ -43,11 +45,14 @@ useEffect(() => {
 
       localStorage.setItem('auth_token',newToken);
       token =newToken;
+      
+     
+   
 
       }
       
       // console.log(token)
-   
+    setUserId(jwtDecode(token)._id);
       const response = await fetch(`${apiUrl}/api/canvas/list`, {
         method: "GET",
         headers: {
@@ -68,7 +73,7 @@ useEffect(() => {
       setCanvases(data);
     } catch (error) {
         alert("no saved canvases")
-      console.log("unable to fetch canvas", error.message);
+      console.log("unable to fetch canvas", response);
     }
   };
 
@@ -164,13 +169,11 @@ useEffect(() => {
     setSharing(!shouldClose);
   }
   
-   let userId = null;
-   if(token){
-    userId= jwtDecode(token)._id;
-   }
+   
+ 
   return (
     <div className={classes.container}>
-        { Sharing &&<Modal  canvasId={Sharing}closeModal={closeModal} />
+        { Sharing &&<Modal  canvasId={Sharing} closeModal={closeModal} />
 
             }
       <div className={classes.header}>

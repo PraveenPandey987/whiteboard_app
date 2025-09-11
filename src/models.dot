@@ -1,0 +1,62 @@
+digraph WhiteboardModels {
+    // Graph settings
+    rankdir=TB
+    node [shape=box, fontname="Arial", fontsize=9, style=filled]
+    edge [fontname="Arial", fontsize=8]
+    
+    // User entity
+    User [
+        label="User\l\l- _id: ObjectId\l- name: String (required)\l- email: String (unique)\l- password: String\l- createdAt: Date\l- updatedAt: Date"
+        fillcolor="#ADD8E6"
+        style=filled
+    ]
+    
+    // Canvas entity  
+    Canvas [
+        label="Canvas\l\l- _id: ObjectId\l- name: String (required)\l- owner: ObjectId (ref: User)\l- shared: Array[ObjectId] (ref: User)\l- elements: Array[Mixed]\l- sharedEmail: Array[String]\l- createdAt: Date\l- updatedAt: Date"
+        fillcolor="#ADD8E6"
+        style=filled
+    ]
+    
+    // Relationships
+    User -> Canvas [
+        label="owns"
+        color="green"
+        fontcolor="green"
+        arrowhead=normal
+        penwidth=2
+    ]
+    
+    User -> Canvas [
+        label="shared with"
+        color="blue" 
+        fontcolor="blue"
+        arrowhead=normal
+        style=dashed
+        penwidth=2
+    ]
+    
+    // Legend
+    subgraph cluster_legend {
+        label="Legend"
+        style=filled
+        fillcolor="#F5F5F5"
+        
+        legend1 [label="Green: Content Creation" fillcolor="#90EE90" style=filled shape=box]
+        legend2 [label="Blue: Sharing/Collaboration" fillcolor="#87CEEB" style=filled shape=box]
+        legend3 [label="Solid: One-to-Many" shape=plaintext]
+        legend4 [label="Dashed: Many-to-Many" shape=plaintext]
+    }
+    
+    // Model descriptions
+    subgraph cluster_descriptions {
+        label="Model Descriptions"
+        style=filled
+        fillcolor="#F0F8FF"
+        
+        desc [
+            label="User: Represents application users with authentication\lCanvas: Drawing workspace with collaborative features\l\lRelationships:\l• One user owns multiple canvases (1:N)\l• Multiple users can share canvases (N:N)"
+            shape=plaintext
+        ]
+    }
+}
