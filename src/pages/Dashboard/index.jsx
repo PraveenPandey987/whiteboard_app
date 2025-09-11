@@ -15,7 +15,7 @@ const CanvasDashboard = () => {
 useEffect(() => {
   const fetchData = async () => {
     console.log("hrerr");
-    if (!token) {
+    if (!token || token === "undefined" || token === "null") {
      
       navigate('/login');
       return;

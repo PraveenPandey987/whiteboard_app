@@ -27,6 +27,7 @@ const Index = () => {
       
       const token = response.headers.get('Authorization')?.split(' ')[1];
       console.log(token);
+      if(token)
       localStorage.setItem('auth_token', token); 
 
       const data = await response.json();
