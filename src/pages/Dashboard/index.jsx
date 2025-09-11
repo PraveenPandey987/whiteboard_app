@@ -21,20 +21,9 @@ useEffect(() => {
       return;
     }
  try {
-     
-      let decoded;
-    try {
-      decoded = jwtDecode(tok);
-    } catch {
-      localStorage.removeItem('auth_token');
-      navigate('/login');
-      return;
-    }
-    if (!decoded?._id) {
-      localStorage.removeItem('auth_token');
-      navigate('/login');
-      return;
-    }
+
+     const decoded = jwtDecode(token);
+  
       const currentTime = Date.now() / 1000; 
     
       if (decoded.exp < currentTime ) {
@@ -85,7 +74,12 @@ useEffect(() => {
       console.log(data);
       setCanvases(data);
     } catch (error) {
-      
+
+       if (error.name === "InvalidTokenError" || error.message.includes("Invalid token")) {
+    localStorage.removeItem('auth_token');
+    navigate('/login');
+    return;
+  }
         alert("no saved canvases")
       console.log("unable to fetch canvas", error.message);
     }
