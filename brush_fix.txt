@@ -1,0 +1,42 @@
+BRUSH TOOL ERROR FIX
+====================
+
+Problem: 
+When using brush tool first, getting error: "Cannot destructure property 'type' of 'V[k]' as it is undefined"
+This happens because toolboxState[boardState.activeToolItem] is undefined on first use.
+
+Location: 
+File: src/store/BoardProvier.jsx
+Line: Around 389 in boardMouseDownHandler function
+
+Current Code:
+```javascript
+dispactBoardActions({
+  type: BOARD_ACTIONS.DRAW_DOWN,
+  payload: {
+    clientX,
+    clientY,
+    stroke: toolboxState[boardState.activeToolItem]?.stroke,
+    fill: toolboxState[boardState.activeToolItem]?.fill,
+    size: toolboxState[boardState.activeToolItem]?.size,
+  },
+})
+```
+
+Fix:
+Replace the above code with:
+```javascript
+const activeToolData = toolboxState[boardState.activeToolItem] || {};
+dispactBoardActions({
+  type: BOARD_ACTIONS.DRAW_DOWN,
+  payload: {
+    clientX,
+    clientY,
+    stroke: activeToolData.stroke,
+    fill: activeToolData.fill,
+    size: activeToolData.size,
+  },
+})
+```
+
+This ensures that even if toolboxState[boardState.activeToolItem] is undefined, we use an empty object instead, preventing the destructuring error.

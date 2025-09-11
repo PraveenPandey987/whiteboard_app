@@ -381,17 +381,17 @@ const BoardProvier = ({ data, id, children }) => {
       )
       return;
     }
-    dispactBoardActions({
-      type: BOARD_ACTIONS.DRAW_DOWN,
-      payload: {
-        clientX,
-        clientY,
-        stroke: toolboxState[boardState.activeToolItem]?.stroke,
-        fill: toolboxState[boardState.activeToolItem]?.fill,
-        size: toolboxState[boardState.activeToolItem]?.size,
-
-      },
-    })
+   const activeToolData = toolboxState[boardState.activeToolItem] || {};
+dispactBoardActions({
+  type: BOARD_ACTIONS.DRAW_DOWN,
+  payload: {
+    clientX,
+    clientY,
+    stroke: activeToolData.stroke,
+    fill: activeToolData.fill,
+    size: activeToolData.size,
+  },
+})
 
   }
   const boardMouseMoveHandler = (event) => {
