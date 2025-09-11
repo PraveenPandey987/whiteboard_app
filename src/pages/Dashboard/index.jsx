@@ -64,7 +64,7 @@ useEffect(() => {
       });
 
       const data = await response.json();
-
+      
       if (!response.ok) {
         throw new Error(data.message || "Something went wrong");
       }
@@ -73,7 +73,7 @@ useEffect(() => {
       setCanvases(data);
     } catch (error) {
         alert("no saved canvases")
-      console.log("unable to fetch canvas", response);
+      console.log("unable to fetch canvas", error.message);
     }
   };
 
