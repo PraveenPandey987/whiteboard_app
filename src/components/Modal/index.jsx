@@ -65,7 +65,7 @@ const Modal = ({ closeModal, canvasId }) => {
     };
 
     const handleChange = (event) => {
-        setFormData(event.target.value.trim());
+        setFormData(event.target.value);
     }
 
     const shareHandler = async () => {
@@ -77,7 +77,7 @@ const Modal = ({ closeModal, canvasId }) => {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ email: formData })
+                body: JSON.stringify({ email: formData.trim() })
 
             });
             const data = await response.json();
@@ -103,6 +103,31 @@ const Modal = ({ closeModal, canvasId }) => {
         }
     }
 
+    const revokeHandler = async (email) => {
+        try {
+            const response = await fetch(`${apiUrl}/api/canvas/revoke/${canvasId}`, {
+                method: "PATCH",
+                headers: {
+                    'ngrok-skip-browser-warning': 'any-value',
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email })
+            });
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.message || data.error || "Something went wrong");
+            }
+
+            setSharedWith((prev) => prev.filter(e => e !== email));
+            alert("Access revoked successfully");
+        } catch (err) {
+            alert(err.message);
+            console.error("Error revoking access:", err.message);
+        }
+    }
+
     return (
         <div className={classes.backdrop} onClick={handleBackdropClick}>
             <div ref={modalRef} className={classes.container}>
@@ -116,7 +141,7 @@ const Modal = ({ closeModal, canvasId }) => {
 
                             <li key={index}> {email}
 
-                                <button>Revoke Access</button>
+                                <button onClick={() => revokeHandler(email)}>Revoke Access</button>
                             </li>
 
                         ))

@@ -8,51 +8,54 @@ const Index = () => {
     email: '',
     password: ''
   });
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const loginHandler = (event) => {
-  event.preventDefault();
-  console.log("Form Data:", formData);
 
-  const registerUser = async () => {
+  const registerHandler = async (event) => {
+    event.preventDefault();
+    if (loading) return;
+    setLoading(true);
+    console.log("Form Data:", formData);
+
     try {
       const response = await fetch(`${apiUrl}/api/users`, {
         method: 'POST',
         headers: {
-            'ngrok-skip-browser-warning': 'any-value' ,
+          'ngrok-skip-browser-warning': 'any-value',
           'Content-Type': 'application/json',
         },
         credentials: 'include',
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          name: formData.name.trim(),
+          email: formData.email.trim(),
+          password: formData.password
+        }),
       });
       
       const token = response.headers.get('Authorization')?.split(' ')[1];
       console.log(token);
-      if(token)
-      localStorage.setItem('auth_token', token); 
+      if (token) {
+        localStorage.setItem('auth_token', token); 
+      }
 
       const data = await response.json();
     
       if (!response.ok) {
-        throw new Error(data.errors[0].msg || "Something went wrong");
+        throw new Error(data.errors?.[0]?.msg || data.message || data.error || "Something went wrong");
       }
 
-      navigate('/');
-
       console.log("User registered successfully:", data);
-      // optionally clear form or redirect user
+      navigate('/');
     } catch (err) {
+      setLoading(false);
       alert(`Error: ${err.message}`);
       console.error("Error registering user:", err);
     }
   };
 
-  registerUser(); // don't forget to call it!
-};
-
-
   const handleChange = (e) => {
     const { id } = e.target;
-  const value = e.target.value.trim();
+    const value = e.target.value;
     setFormData(prev => ({
       ...prev,
       [id]: value
@@ -60,18 +63,16 @@ const Index = () => {
   };
 
   return (
-   
     <div className={classes.container}>
-    <h1 className={classes.heading}>Register</h1>
-      <form onSubmit={loginHandler} className={classes.form}>
-        
-
+      <h1 className={classes.heading}>Register</h1>
+      <form onSubmit={registerHandler} className={classes.form}>
         <input
           type="text"
           id="name"
           placeholder="name"
           value={formData.name}
           onChange={handleChange}
+          disabled={loading}
         />
 
         <input
@@ -80,6 +81,7 @@ const Index = () => {
           placeholder="email"
           value={formData.email}
           onChange={handleChange}
+          disabled={loading}
         />
 
         <input
@@ -88,9 +90,14 @@ const Index = () => {
           placeholder="password"
           value={formData.password}
           onChange={handleChange}
+          disabled={loading}
         />
 
-        <input type="submit" />
+        <input 
+          type="submit" 
+          value={loading ? "Registering..." : "Register"} 
+          disabled={loading} 
+        />
       </form>
     </div>
   );
