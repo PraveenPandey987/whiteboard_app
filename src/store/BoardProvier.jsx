@@ -56,9 +56,26 @@ const BoardProvier = ({ data, id, children }) => {
       }
       case "socket_update": {
         const reconstructed = reconstructElements(action.payload);
+        const newHistory = state.history.slice(0, state.index + 1);
+        let newIndex = state.index;
+
+        if (state.elements.length !== reconstructed.length) {
+          newHistory.push(reconstructed);
+          newIndex += 1;
+        } else {
+          if (newHistory.length > 0) {
+            newHistory[newIndex] = reconstructed;
+          } else {
+            newHistory.push(reconstructed);
+            newIndex = 0;
+          }
+        }
+
         return {
           ...state,
           elements: reconstructed,
+          history: newHistory,
+          index: newIndex,
         }
       }
       case "initial_render": {
