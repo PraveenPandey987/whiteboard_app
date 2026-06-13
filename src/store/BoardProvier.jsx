@@ -8,6 +8,33 @@ import { isPointNearElement } from '../utils/element'
 import { initSocket, getSocket } from '../utils/socket'
 import _ from "lodash";
 import { throttle } from 'lodash';
+
+const stripRoughElements = (elements) => {
+  if (!elements) return [];
+  return elements.map(el => {
+    if (el.roughEle) {
+      const { roughEle, ...rest } = el;
+      return rest;
+    }
+    return el;
+  });
+};
+
+const reconstructElements = (elements) => {
+  if (!elements) return [];
+  return elements.map(el => {
+    if ([TOOL_ITEMS.LINE, TOOL_ITEMS.RECTANGLE, TOOL_ITEMS.CIRCLE, TOOL_ITEMS.ARROW].includes(el.type)) {
+      return createElement(el.id, el.x1, el.y1, el.x2, el.y2, {
+        type: el.type,
+        fill: el.fill,
+        stroke: el.stroke,
+        size: el.size
+      });
+    }
+    return el;
+  });
+};
+
 const BoardProvier = ({ data, id, children }) => {
 
 
@@ -27,25 +54,20 @@ const BoardProvier = ({ data, id, children }) => {
           elements: newElement,
         }
       }
-      case "socket_update":
-        if (_.isEqual(state.elements, action.payload)) {
-          return state;
-        }
-       
-       
+      case "socket_update": {
+        const reconstructed = reconstructElements(action.payload);
         return {
           ...state,
-          elements: action.payload,
-          
-        
+          elements: reconstructed,
         }
-      case "initial_render":
-        
+      }
+      case "initial_render": {
+        const reconstructed = reconstructElements(data);
         return {
           ...state,
-          elements: data,
-             
+          elements: reconstructed,
         }
+      }
 
       case BOARD_ACTIONS.CHANGE_TOOL:
         return {
@@ -255,11 +277,11 @@ const BoardProvier = ({ data, id, children }) => {
           console.log(`${socket.id} sending drawing update - LOCAL CHANGE`)
           socket.emit("drawingUpdate", {
             canvasId: id,
-            elements: elements,
+            elements: stripRoughElements(elements),
             senderId: socket.id,
           });
         }
-      }, 10),
+      }, 30),
       [id]
     );
 
@@ -275,7 +297,7 @@ const BoardProvier = ({ data, id, children }) => {
 
       console.log(elements, prevElements.current)
       // 💾 ALWAYS update our memory first
-      const shouldEmit = !isSocketUpdate.current && !_.isEqual(prevElements.current, elements);
+      const shouldEmit = !isSocketUpdate.current && prevElements.current !== elements;
       prevElements.current = elements;
 
       // Reset the socket flag
